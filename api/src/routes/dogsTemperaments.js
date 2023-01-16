@@ -1,11 +1,9 @@
 const {Router} = require("express")
+const { dogTemperament } = require("../handlers/temperamentHandler")
 
 const temperamentRouter = Router()
 
-
 //GET /temperaments
-temperamentRouter.get("/", (req, res) => {
-    res.status(200).send("NIY: Here we are going to see all the dogs temperaments")
-})
+temperamentRouter.get("/", dogTemperament)
 
 module.exports = temperamentRouter;

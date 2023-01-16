@@ -1,26 +1,27 @@
 const {Router} = require("express")
+const {
+    getDogsHandler,
+    getDogIdHandler,
+    getDogNameHandler,
+    createDogHandler
+} = require("../handlers/dogsHandlers")
+
 
 const dogsRouter = Router()
 
+
+
 //GET /dogs
-dogsRouter.get("/", (req, res) => {
-    res.status(200).send("NIY: Here we are going to see all the cards and filters")
-})
+dogsRouter.get("/", getDogsHandler)
 
 //GET /dogs/{idRaza}
-dogsRouter.get("/:id", (req, res) => {
-    res.status(200).send("NIY: Here we are going to search dog by ID")
-})
+dogsRouter.get("/:id", getDogIdHandler)
 
 //GET /dogs?name="..."
-dogsRouter.get("/?name", (req, res) => {
-    res.status(200).send("NIY: Here we are going to search dog by name")
-})
+dogsRouter.get("/?name", getDogNameHandler)
 
 //POST /dogs
-dogsRouter.post("/", (req, res) => {
-    res.status(200).send("NIY: Here we are going to create a new dog")
-})
+dogsRouter.post("/create", createDogHandler)
 
 
 
