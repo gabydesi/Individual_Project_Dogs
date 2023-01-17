@@ -1,19 +1,36 @@
+const { createDog, getDogById, searchDogByName, getAllDogs } = require('../controllers/dogsController')
+
+
+
 //función que se va a ejecutar cuando yo reciba la req en el endpoint
 //no será responsabilidad del handler pedir info directamente en la db o en la api externa
 //esta función llamará a la función que obtiene los datos de la db, en este caso los controllers
 //y cuando ya tenga los datos dará la respuesta
 
 
-const getDogsHandler = (req, res) => {
+const getDogsHandler = async(req, res) => {
     const { name } = req.query;
-    if(name) res.status(200).send(`NIY: Here we are going to search a dog with name: ${name}`)
-    else res.status(200).send("We'll see all te cards")
+
+    const results = name ? await searchDogByName(name) : await getAllDogs()
+
+    res.status(200).json(results)
+
+
 }
 
 
-const getDogIdHandler = (req, res) => {
+
+const getDogIdHandler = async(req, res) => {
     const { id } = req.params;
-    res.status(200).send(`NIY: Here we are going to see the dog with ID: ${id}`)
+
+    const dogsSource = isNaN(id)? "DB" : "API"
+   
+    try {
+        const dogRace = await getDogById(id, dogsSource)
+        res.status(200).json(dogRace)
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
 }
 
 
@@ -22,15 +39,15 @@ const getDogNameHandler = (req, res) => {
 }
 
 
-const createDogHandler = (req, res) => {
-    const { name, height, weight, life_span, temperament } = req.body;
-    res.status(200).send(`NIY: Here we are going to create a new dog with the following data:
-        name:${name},
-        height:${height}, 
-        weight:${weight}, 
-        life_span:${life_span}, 
-        temperament:${temperament}
-    `)
+const createDogHandler = async(req, res) => {
+    const { name, height, weight, life_span, temperament, image } = req.body;
+    try {
+        const newDog = await createDog(name, height, weight, life_span, temperament, image)
+        res.status(201).json(newDog)
+        
+    } catch (error) {
+        res.status(400).json({error: error.message})
+    }
 }
 
 
