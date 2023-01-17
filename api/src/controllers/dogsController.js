@@ -21,9 +21,28 @@ const cleanArray = (arr) =>{
     return clean;
 }
 
+//función para limpiar la info y poder traerla por ID
+const cleanArrayId = async(id) => {
+    const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds/${id}?api_key=${API_KEY}`)).data
+    
+    if(apiDogsAll){
+
+        let dogApi = apiDogsAll
+        return{
+            id: dogApi.id,
+            name: dogApi.name, 
+            height: dogApi.height.metric, 
+            weight: dogApi.weight.metric, 
+            life_span: dogApi.life_span, 
+            temperament:dogApi.temperament,
+            image: `https://cdn2.thedogapi.com/images/${dogApi.reference_image_id}.jpg`,
+            create: false
+        }
+    } 
+}
 
 
-//función que interactua con el modelo de la db y con la api externa, esta función le entrega la info a los handlers
+//funciones que interactuan con el modelo de la db y con la api externa, esta función le entrega la info a los handlers
 const getAllDogs = async() => {
     const dbDogs = await Dog.findAll()
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data
@@ -45,36 +64,6 @@ const searchDogByName = async(name) => {
 
     return [...filterApi, ...dbDogs]
 } 
-
-//función para buscar una imagen por referencia desde la api principal
-const findImage = async() => {
-    const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data
-    if(apiDogsAll){
-    let dogApi = apiDogsAll
-    return{
-        image: dogApi.image.url
-    }
-} }
-
-//función para limpiar la info y poder traerla por ID
-const cleanArrayId = async(id) => {
-    const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds/${id}?api_key=${API_KEY}`)).data
-
-    if(apiDogsAll){
-
-        let dogApi = apiDogsAll
-        return{
-            id: dogApi.id,
-            name: dogApi.name, 
-            height: dogApi.height.metric, 
-            weight: dogApi.weight.metric, 
-            life_span: dogApi.life_span, 
-            temperament:dogApi.temperament,
-            image: dogApi.reference_image_id,
-            create: false
-        }
-    } 
-}
 
 
 const getDogById = async(id, dogsSource) => {
