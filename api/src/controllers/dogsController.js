@@ -42,6 +42,7 @@ const cleanArrayId = async(id) => {
 }
 
 
+
 //funciones que interactuan con el modelo de la db y con la api externa, esta función le entrega la info a los handlers
 const getAllDogs = async() => {
     const dbDogs = await Dog.findAll()
@@ -75,6 +76,15 @@ const getDogById = async(id, dogsSource) => {
 
 const createDog = async(name, height, weight, life_span, temperament, image) => {
     return await Dog.create({name, height, weight, life_span, temperament, image})
+
+    // let dogDb = await Dog.create({name, height, weight, life_span, temperament, image})
+    // await Temperament.findAll({
+    //     where: {id : temperament}
+    //   })
+  
+    //   await dogDb.addTemperament(temperament)
+    
+    
 } 
 
 

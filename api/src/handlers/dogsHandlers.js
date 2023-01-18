@@ -10,14 +10,9 @@ const { createDog, getDogById, searchDogByName, getAllDogs } = require('../contr
 
 const getDogsHandler = async(req, res) => {
     const { name } = req.query;
-
     const results = name ? await searchDogByName(name) : await getAllDogs()
-
     res.status(200).json(results)
-
-
 }
-
 
 
 const getDogIdHandler = async(req, res) => {
@@ -34,17 +29,11 @@ const getDogIdHandler = async(req, res) => {
 }
 
 
-const getDogNameHandler = (req, res) => {
-    res.status(200).send("NIY: Here we should see the name")
-}
-
-
 const createDogHandler = async(req, res) => {
     const { name, height, weight, life_span, temperament, image } = req.body;
     try {
         const newDog = await createDog(name, height, weight, life_span, temperament, image)
         res.status(201).json(newDog)
-        
     } catch (error) {
         res.status(400).json({error: error.message})
     }
@@ -56,6 +45,5 @@ const createDogHandler = async(req, res) => {
 module.exports = {
     getDogsHandler,
     getDogIdHandler,
-    getDogNameHandler,
     createDogHandler
 }
