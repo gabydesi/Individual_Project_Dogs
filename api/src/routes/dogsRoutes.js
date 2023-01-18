@@ -8,6 +8,15 @@ const {
 
 const dogsRouter = Router()
 
+//validations for db protection
+const postValidate = (req, res, next) => {
+    const { name, height, weight } = req.body;
+    if(!name || !height || !weight) res.status(404).json({error: "Missing data"})
+    
+    next();
+}
+
+
 
 
 //GET /dogs also dogs?name="..."
@@ -17,7 +26,7 @@ dogsRouter.get("/", getDogsHandler)
 dogsRouter.get("/:id", getDogIdHandler)
 
 //POST /dogs
-dogsRouter.post("/create", createDogHandler)
+dogsRouter.post("/create", postValidate, createDogHandler)
 
 
 

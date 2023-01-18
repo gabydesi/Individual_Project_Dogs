@@ -10,8 +10,14 @@ const { createDog, getDogById, searchDogByName, getAllDogs } = require('../contr
 
 const getDogsHandler = async(req, res) => {
     const { name } = req.query;
-    const results = name ? await searchDogByName(name) : await getAllDogs()
-    res.status(200).json(results)
+    try {
+        const results = name ? await searchDogByName(name) 
+        : await getAllDogs()
+        res.status(200).json(results)
+    } catch (error) {
+        res.status(404).send("Dog name don't exist")
+    }
+    
 }
 
 
@@ -24,7 +30,7 @@ const getDogIdHandler = async(req, res) => {
         const dogRace = await getDogById(id, dogsSource)
         res.status(200).json(dogRace)
     } catch (error) {
-        res.status(400).json({error: error.message})
+        res.status(404).json({error: "The ID doesn't exist"})
     }
 }
 
