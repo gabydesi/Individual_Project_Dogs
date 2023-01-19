@@ -9,6 +9,7 @@ const getDogsTemperament = async() => {
     const union = format.filter(result => result != null)
     .join().split(", ").join().split(",")
 
+    //verificando repetidos
     let result = union.reduce((a, e) => {
       if(!a.find(d => d == e)) a.push(e)
       return a
