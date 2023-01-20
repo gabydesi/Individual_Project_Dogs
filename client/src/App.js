@@ -22,7 +22,7 @@ function App() {
         <Home/>
       </Route>
 
-      <Route path="/detail">
+      <Route path="/detail/:id">
         <Detail/>
       </Route>
 
