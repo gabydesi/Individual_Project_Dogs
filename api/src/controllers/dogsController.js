@@ -21,7 +21,7 @@ const cleanArray = (arr) =>{
     return clean;
 }
 
-//función para limpiar la info que me traerá por name y cards
+//función para limpiar la info que me traerá por db
 const cleanDbArray = (arr) =>{
     const clean = arr.map(element =>{
         return{
@@ -93,10 +93,7 @@ const getDogById = async(id, dogsSource) => {
 
 
 const createDog = async(name, height, weight, life_span, temperaments, image) => {
-    //return await Dog.create({name, height, weight, life_span, temperament, image})
-
     let dogDb = await Dog.create({name, height, weight, life_span, image})
-    
     temperaments.map(async temp=> {
         let temperament = await Temperament.findOne({
         where: { 
@@ -104,7 +101,6 @@ const createDog = async(name, height, weight, life_span, temperaments, image) =>
          }})
         await dogDb.addTemperament(temperament)
     })
-    
     return `Dog created succesfully ${dogDb.name} with temperaments ${temperaments}`
 } 
 

@@ -15,7 +15,7 @@ const getDogsHandler = async(req, res) => {
         : await getAllDogs()
         res.status(200).json(results)
     } catch (error) {
-        res.status(404).send("Dog name don't exist")
+        res.status(404).send({error: error.message})
     }
     
 }
@@ -36,9 +36,9 @@ const getDogIdHandler = async(req, res) => {
 
 
 const createDogHandler = async(req, res) => {
-    const { name, height, weight, life_span, temperaments,image } = req.body;
+    const { name, height, weight, life_span, temperament,image } = req.body;
     try {
-        let newDog = await createDog(name, height, weight, life_span, temperaments, image)
+        let newDog = await createDog(name, height, weight, life_span, temperament, image)
         res.status(200).json(newDog)
     } catch (error) {
         res.status(400).json({error: error.message})
