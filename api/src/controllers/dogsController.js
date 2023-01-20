@@ -21,6 +21,23 @@ const cleanArray = (arr) =>{
     return clean;
 }
 
+//función para limpiar la info que me traerá por name y cards
+const cleanDbArray = (arr) =>{
+    const clean = arr.map(element =>{
+        return{
+            id: element.id,
+            name: element.name, 
+            height: element.height.metric, 
+            weight: element.weight.metric, 
+            life_span: element.life_span, 
+            temperament:element.temperaments.map(temp=> temp.name).join(","),
+            image: element.image,
+            created: true
+        }
+    })
+    return clean;
+}
+
 //función para limpiar la info y poder traerla por ID
 const cleanArrayId = async(id) => {
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds/${id}?api_key=${API_KEY}`)).data
@@ -45,11 +62,12 @@ const cleanArrayId = async(id) => {
 
 //funciones que interactuan con el modelo de la db y con la api externa, esta función le entrega la info a los handlers
 const getAllDogs = async() => {
-    const dbDogs = await Dog.findAll()
+    const dbDogs = await Dog.findAll({include: Temperament })
+    const mapDogs = cleanDbArray(dbDogs)
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data
     const apiDogs = cleanArray(apiDogsAll)
 
-    return [...dbDogs, ...apiDogs]
+    return [...mapDogs, ...apiDogs]
 
 }
 
@@ -74,14 +92,20 @@ const getDogById = async(id, dogsSource) => {
 }
 
 
-const createDog = async(name, height, weight, life_span, temperament, image) => {
+const createDog = async(name, height, weight, life_span, temperaments, image) => {
     //return await Dog.create({name, height, weight, life_span, temperament, image})
 
     let dogDb = await Dog.create({name, height, weight, life_span, image})
-    let tempDb = await Temperament.findAll({
-        where: { name: temperament }
+    
+    temperaments.map(async temp=> {
+        let temperament = await Temperament.findOne({
+        where: { 
+            name: temp
+         }})
+        await dogDb.addTemperament(temperament)
     })
-    await dogDb.addTemperament(tempDb);
+    
+    return `Dog created succesfully ${dogDb.name} with temperaments ${temperaments}`
 } 
 
 

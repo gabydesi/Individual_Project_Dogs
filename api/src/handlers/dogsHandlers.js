@@ -36,10 +36,10 @@ const getDogIdHandler = async(req, res) => {
 
 
 const createDogHandler = async(req, res) => {
-    const { name, height, weight, life_span, temperament,image } = req.body;
+    const { name, height, weight, life_span, temperaments,image } = req.body;
     try {
-        const newDog = await createDog(name, height, weight, life_span, temperament, image)
-        res.status(201).json(newDog)
+        let newDog = await createDog(name, height, weight, life_span, temperaments, image)
+        res.status(200).json(newDog)
     } catch (error) {
         res.status(400).json({error: error.message})
     }
