@@ -7,6 +7,7 @@ export const POST_DOG = "POST_DOG"
 
 
 
+
 export function getDogs(){
         return function(dispatch){
             axios("http://localhost:3001/dogs").then(res => dispatch({
@@ -43,3 +44,11 @@ export function postDog(){
         }))
     }
 }
+
+// export function searchDog(race){
+//     return function(dispatch){
+//         axios(`http://localhost:3001/dogs?name=${race}`).then(res => dispatch({
+//             type:SEARCH_DOG
+//         }))
+//     }
+// }

@@ -4,7 +4,7 @@ const { Dog, Temperament } = require('../db')
 
 const { Op } = require('sequelize');
 
-//función para limpiar la info que me traerá por name y cards
+//función para limpiar la info que me traerá por name y cards desde la api y db
 const cleanArray = (arr) =>{
     const clean = arr.map(element =>{
         return{
@@ -27,8 +27,8 @@ const cleanDbArray = (arr) =>{
         return{
             id: element.id,
             name: element.name, 
-            height: element.height.metric, 
-            weight: element.weight.metric, 
+            height: element.height, 
+            weight: element.weight, 
             life_span: element.life_span, 
             temperament:element.temperaments.map(temp=> temp.name).join(","),
             image: element.image,
@@ -38,7 +38,24 @@ const cleanDbArray = (arr) =>{
     return clean;
 }
 
-//función para limpiar la info y poder traerla por ID
+//función para limpiar la info que me traerá por db cuando quiero ver la info por ID
+const cleanDBArrayId = async(id) => {
+    const dbDogs = await Dog.findOne({where: {id}, include: Temperament })
+    
+     return {
+        id: dbDogs.id,
+            name: dbDogs.name, 
+            height: dbDogs.height, 
+            weight: dbDogs.weight, 
+            life_span: dbDogs.life_span, 
+            temperament:dbDogs.temperaments.map(temp=> temp.name).join(","),
+            image: dbDogs.image,
+            created: true
+     }
+    
+}
+
+//función para limpiar la info y poder traerla por ID desde la api
 const cleanArrayId = async(id) => {
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds/${id}?api_key=${API_KEY}`)).data
     
@@ -87,13 +104,13 @@ const searchDogByName = async(name) => {
 
 const getDogById = async(id, dogsSource) => {
 
-    const dog = dogsSource === "API" ? await cleanArrayId(id) : await Dog.findByPk(id);
+    const dog = dogsSource === "API" ? await cleanArrayId(id) : await cleanDBArrayId(id);
     return dog;
 }
 
 
 const createDog = async(name, height, weight, life_span, temperaments, image) => {
-    let dogDb = await Dog.create({name, height, weight, life_span, image})
+    let dogDb = await Dog.create({name, height, weight, life_span, image:image || "https://i.pinimg.com/originals/18/35/81/183581a9055feb63d670187fc2ac51f5.jpg"})
     temperaments.map(async temp=> {
         let temperament = await Temperament.findOne({
         where: { 
@@ -101,7 +118,7 @@ const createDog = async(name, height, weight, life_span, temperaments, image) =>
          }})
         await dogDb.addTemperament(temperament)
     })
-    return `Dog created succesfully ${dogDb.name} with temperaments ${temperaments}`
+    // return `Dog created succesfully ${dogDb.name} with temperaments ${temperaments}`
 } 
 
 
