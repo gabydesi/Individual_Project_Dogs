@@ -12,7 +12,7 @@ const getDogsHandler = async(req, res) => {
     const { name } = req.query;
     try {
         const results = name ? await searchDogByName(name) 
-        : await getAllDogs()
+        : await getAllDogs() 
         res.status(200).json(results)
     } catch (error) {
         res.status(404).send({error: error.message})

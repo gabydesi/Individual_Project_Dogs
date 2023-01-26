@@ -13,7 +13,7 @@ const cleanArray = (arr) =>{
             height: element.height.metric, 
             weight: element.weight.metric, 
             life_span: element.life_span, 
-            temperament:element.temperament,
+            temperament:element.temperament || "Playful",
             image: element.image.url,
             created: false
         }
@@ -81,10 +81,11 @@ const cleanArrayId = async(id) => {
 const getAllDogs = async() => {
     const dbDogs = await Dog.findAll({include: Temperament })
     const mapDogs = cleanDbArray(dbDogs)
+    
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data
     const apiDogs = cleanArray(apiDogsAll)
 
-    return [...mapDogs, ...apiDogs]
+    return [...mapDogs, ...apiDogs ]
 
 }
 
@@ -94,6 +95,7 @@ const searchDogByName = async(name) => {
         include: Temperament
     })
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data
+
     const apiDogs = cleanArray(apiDogsAll)
 
     const filterApi = apiDogs.filter(dog => dog.name.toLowerCase().includes(name.toLowerCase()))
