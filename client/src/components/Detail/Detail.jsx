@@ -8,7 +8,7 @@ const Detail = () => {
 
     const dispatch = useDispatch()
     const { id } = useParams();
-    console.log(id)
+    
     useEffect(()=>{
         dispatch(getDogDetail(id))
     },[dispatch, id])

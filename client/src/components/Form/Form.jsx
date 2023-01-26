@@ -1,7 +1,47 @@
 import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
-import { getDogTemperaments, postDog } from '../../Redux/action';
+import { getDogTemperaments } from '../../Redux/action';
 import axios from 'axios';
+
+const validate = (form) => {
+    let errors = {}
+    if(!form.name) {
+        errors.name ="Please add a name"
+    }else if(!/^[A-Za-z][A-Za-z]/.test(form.name)){
+        errors.name = "The name can only contain letters"
+    }else if(parseInt(form.name.length) >= 25){
+        errors.name = "The name can only contain less than 25 characters"
+    }
+    
+    //height
+    // if(!form.height) {
+    //     errors = "Please add the information requested"
+    // }else if(!/^[1-9][1-9]/.test(form.height)){
+    //     errors = "You can only use numbers for this information"
+    // }else if(parseInt(form.height) > 85){
+    //     errors = "The dog's height must be less than 85cm"
+    // }
+
+    // //weight
+    // if(!form.weight) {
+    //     setErrors({...errors, weight:"Please add the information requested"})
+    // }else if(!/^[1-9][1-9]/.test(form.weight)){
+    //     setErrors({...errors, weight:"You can only use numbers for this information"})
+    // }else if(parseInt(form.weight) > 90){
+    //     setErrors({...errors, weight:"The dog's weight must be less than 90kg"})
+    // }
+
+    // //life_span
+    // if(!/^[1-9][1-9]/.test(form.life_span)){
+    //     setErrors({...errors, life_span:"You can only use numbers for this information"})
+    // }else if(parseInt(form.life_span) > 20){
+    //     setErrors({...errors, life_span:"The dog's age must be less than 20 years"})
+    // }
+
+    return errors;
+}
+
+
 
 
 const Form = () => {
@@ -23,25 +63,14 @@ const Form = () => {
         temperament:[]
     })
     
-    // const [errors, setErrors] = useState({
-    //     name:"",
-    //     height:"",
-    //     weight:"",
-    //     life_span:"",
-    //     image:"",
-    //     temperament:[]
-    // })
+    const [errors, setErrors] = useState({})
 
-    
-    const [selectNameState, setSelectNameState] = useState([])
     
 
     //añadir datos en el input
     const changeHandler = (event) => {
-        
         setForm({...form, [event.target.name]:event.target.value})
-        
-        //validate({...form, [property]:value})
+        setErrors(validate({...form, [event.target.name]:event.target.value}))
     }
     
     
@@ -53,45 +82,6 @@ const Form = () => {
     })
     }
 
-
-    //validaciones
-    // const validate = (form) => {
-
-    //     if(!form.name) {
-    //         setErrors({...errors, name:"Please add a name"})
-    //     }else if(!/^[A-Za-z][A-Za-z]/.test(form.name)){
-    //         setErrors({...errors, name:"The name can only contain letters"})
-    //     }else if(parseInt(form.name.length) >= 25){
-    //         setErrors({...errors, name:"The name can only contain less than 25 characters"})
-    //     }
-        
-    //     //height
-    //     if(!form.height) {
-    //         setErrors({...errors, height:"Please add the information requested"})
-    //     }else if(!/^[1-9][1-9]/.test(form.height)){
-    //         setErrors({...errors, height:"You can only use numbers for this information"})
-    //     }else if(parseInt(form.height) > 85){
-    //         setErrors({...errors, height:"The dog's height must be less than 85cm"})
-    //     }
-
-    //     //weight
-    //     if(!form.weight) {
-    //         setErrors({...errors, weight:"Please add the information requested"})
-    //     }else if(!/^[1-9][1-9]/.test(form.weight)){
-    //         setErrors({...errors, weight:"You can only use numbers for this information"})
-    //     }else if(parseInt(form.weight) > 90){
-    //         setErrors({...errors, weight:"The dog's weight must be less than 90kg"})
-    //     }
-
-    //     //life_span
-    //     if(!/^[1-9][1-9]/.test(form.life_span)){
-    //         setErrors({...errors, life_span:"You can only use numbers for this information"})
-    //     }else if(parseInt(form.life_span) > 20){
-    //         setErrors({...errors, life_span:"The dog's age must be less than 20 years"})
-    //     }
-
-    // }
-
     //cargar datos en la db
        
     const handlerSubmit = (event) => {
@@ -102,6 +92,8 @@ const Form = () => {
     
     }
 
+    //validaciones
+
     return(
         <div>
 
@@ -111,13 +103,13 @@ const Form = () => {
             <div>
             <label>Name: </label>
             <input type="text" value={form.name} onChange={changeHandler} name="name" />
-            
+            <span>{errors.name}</span>
             </div>
 
             <div>
             <label>Height: </label>
             <input type="text" value={form.height} onChange={changeHandler} name="height"/>
-           
+            
             </div>
 
             <div>
@@ -140,9 +132,9 @@ const Form = () => {
             <div>
             <label>Temperament: </label>
             <select name="temperament" onChange={handlerSelect}>
-                {dogTemperament.map((temp, id) => {
+                {dogTemperament.map((temp) => {
                     return(
-                    <option className='option_form' key={id} value={temp.name}>{temp.name}</option>
+                    <option className='option_form' value={temp.name}>{temp.name}</option>
                     )
                 })}
             </select>

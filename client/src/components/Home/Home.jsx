@@ -1,20 +1,24 @@
+import React from "react";
 import CardsContainer from "../CardsContainer/CardsContainer";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { getDogs } from "../../Redux/action";
+import NavBar from "../NavBar/NavBar";
+
+
 
 const Home = () => {
 
-    const dispatch = useDispatch()
-
-    useEffect(()=>{
-        dispatch(getDogs())
-    },[dispatch])
-
+    
     return(
+
+        <div>
+
+            <NavBar/>
+
         <div>
             <h1>This is the Home view (Maquetando)</h1>
             <CardsContainer/>
+        </div>
+        
+
         </div>
     )
 }
