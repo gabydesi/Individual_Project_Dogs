@@ -1,6 +1,8 @@
 import React, {useState, useEffect} from 'react';
 import { useDispatch, useSelector} from 'react-redux';
 import { getDogTemperaments } from '../../Redux/action';
+import { Link } from 'react-router-dom';
+import style from "./Form.module.css"
 import axios from 'axios';
 
 const validate = (form) => {
@@ -56,8 +58,10 @@ const Form = () => {
     
     const [form, setForm] = useState({
         name:"",
-        height:"",
-        weight:"",
+        height_min:"",
+        height_max:"",
+        weight_min:"",
+        weight_max:"",
         life_span:"",
         image:"",
         temperament:[]
@@ -78,7 +82,7 @@ const Form = () => {
     const handlerSelect = (event) => {
     setForm({
       ...form,
-      temperament: [...form.temperament, event.target.value]
+      temperaments: [...form.temperament, event.target.value]
     })
     }
 
@@ -95,7 +99,11 @@ const Form = () => {
     //validaciones
 
     return(
+        <div className={style.back_form}>
+
         <div>
+        <Link to="/home">BACK HOME</Link>
+        </div>
 
         <h2>Let's create a new dog!</h2>
         
@@ -107,14 +115,26 @@ const Form = () => {
             </div>
 
             <div>
-            <label>Height: </label>
-            <input type="text" value={form.height} onChange={changeHandler} name="height"/>
+            <label>Height min: </label>
+            <input type="text" value={form.height_min} onChange={changeHandler} name="height_min"/>
             
             </div>
 
             <div>
-            <label>Weight: </label>
-            <input type="text" value={form.weight} onChange={changeHandler} name="weight" />
+            <label>Height max: </label>
+            <input type="text" value={form.height_max} onChange={changeHandler} name="height_max"/>
+            
+            </div>
+
+            <div>
+            <label>Weight min: </label>
+            <input type="text" value={form.weight_min} onChange={changeHandler} name="weight_min" />
+            
+            </div>
+
+            <div>
+            <label>Weight max: </label>
+            <input type="text" value={form.weight_max} onChange={changeHandler} name="weight_max" />
             
             </div>
 
@@ -131,7 +151,7 @@ const Form = () => {
 
             <div>
             <label>Temperament: </label>
-            <select name="temperament" onChange={handlerSelect}>
+            <select name="temperaments" onChange={handlerSelect}>
                 {dogTemperament.map((temp) => {
                     return(
                     <option className='option_form' value={temp.name}>{temp.name}</option>
@@ -146,6 +166,8 @@ const Form = () => {
             
             
         </form>
+
+        
         
         </div>
     )

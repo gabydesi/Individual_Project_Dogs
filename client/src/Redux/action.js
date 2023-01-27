@@ -6,6 +6,7 @@ export const GET_DOG_TEMPERAMENT = "GET_DOG_TEMPERAMENT";
 export const SEARCH_DOG = "SEARCH_DOG";
 
 export const SORT_BREED_ALPHABETICAL = "SORT_BREED_ALPHABETICAL";
+export const ORDER_BY_WEIGHT = "ORDER_BY_WEIGHT"
 export const FILTER_DOGS_BY_TEMP = "FILTER_DOGS_BY_TEMP"
 export const FILTER_DOGS_BY_CREATED = "FILTER_DOGS_BY_SOURCE"
 
@@ -64,20 +65,24 @@ export function alphabeticalOrder(payload) {
   };
 }
 
+export function weightOrder(payload) {
+  return {
+      type: ORDER_BY_WEIGHT,
+      payload
+  }
+}
+
 export function temperamentsFilter (payload) {
 
         return{
             type: FILTER_DOGS_BY_TEMP,
             payload
         }
-    
 }
 
 export function dogsCreatedFilter (payload) {
-    return function (dispatch) {
-        dispatch({
+    return  {
             type: FILTER_DOGS_BY_CREATED,
             payload
-        })
     }
 }

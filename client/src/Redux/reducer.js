@@ -5,7 +5,8 @@ import {
   SEARCH_DOG,
   SORT_BREED_ALPHABETICAL,
   FILTER_DOGS_BY_TEMP,
-  FILTER_DOGS_BY_CREATED
+  FILTER_DOGS_BY_CREATED,
+  ORDER_BY_WEIGHT
 } from "./action";
 
 const initialState = {
@@ -66,25 +67,44 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         dogs: breedsSort
       };
+      case ORDER_BY_WEIGHT:
+        const sortedWeight = action.payload === 'asc' ?
+                [...state.allDogs].sort(function (a, b) {
+                    if(a.weight_min === null) { return 0 }
+                    if (a.weight_min < b.weight_min) { return 1 }
+                    if (b.weight_min < a.weight_min) { return -1 }
+                    return 0;
+                }) :
+                [...state.allDogs].sort(function (a, b) {
+                    if(a.weight_min === null) { return 0 }
+                    if (a.weight_min < b.weight_min) { return -1; }
+                    if (b.weight_min < a.weight_min) { return 1; }
+                    return 0;
+                })
+            return {
+                ...state,
+                dogs: sortedWeight
+            }
+        
       case FILTER_DOGS_BY_TEMP:
             let allDogsTemps = state.allDogs
 
             if(action.payload !== "All"){
                 allDogsTemps = allDogsTemps.filter((dog) => dog.temperament.includes(action.payload))
-            }
+            }  
             return{
                 ...state,
                 dogs: allDogsTemps
             }
         case FILTER_DOGS_BY_CREATED:
             const createdDogs = state.allDogs
-            const createdFilter = action.payload === "created" ?
+            const createdFilter = action.payload === "createdInDB" ?
             createdDogs.filter(elem => elem.createdInDB === true) :
             createdDogs.filter(elem => !elem.createdInDB)
+            console.log("comprobando",createdFilter)
             return{
-                dogs: action.payload === "All" ? createdDogs : createdFilter
+                dogs: createdFilter
             }
-
     default:
       return { ...state };
   }

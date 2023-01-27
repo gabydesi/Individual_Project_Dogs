@@ -7,7 +7,8 @@ import {
   getDogTemperaments,
   alphabeticalOrder,
   temperamentsFilter,
-  dogsCreatedFilter
+  dogsCreatedFilter,
+  weightOrder
   
 } from "../../Redux/action";
 import Paginate from "../Paginate/Paginate";
@@ -18,9 +19,9 @@ import Paginate from "../Paginate/Paginate";
 //componente smart
 const CardsContainer = () => {
   const dispatch = useDispatch();
-  const dogs = useSelector((state) => state.allDogs);
+  const dogs = useSelector((state) => state.dogs);
   const temperaments = useSelector((state) => state.temperaments);
-
+  
   //paginacion
   const [page, setPage] = useState(1);
   const [dogsPerPage] = useState(8);
@@ -32,6 +33,7 @@ const CardsContainer = () => {
   const pagination = (pageNumber) => {
     setPage(pageNumber);
   };
+
 
   useEffect(() => {
     dispatch(getDogs());
@@ -47,7 +49,6 @@ const CardsContainer = () => {
   //filtrar por API o DB
   const handlerFilterBySource = (event) => {
     dispatch(dogsCreatedFilter(event.target.value))
-
   }
 
   //ordenar alfabeticamente
@@ -58,14 +59,18 @@ const CardsContainer = () => {
     setOrder(`order${event.target.value}`);
   };
 
-
+  //ordenar por peso
+  function handleClickOrderWeight(e) {
+    e.preventDefault();
+    dispatch(weightOrder(e.target.value));
+  }
 
   return (
-    <div>
-      <div>
+
+      <div className={style.container}>
         <div>
           <h6>Find dogs by temperament</h6>
-          <select onChange={handlerFilterByTemp}>
+          <select onChange={(event) =>handlerFilterByTemp(event)}>
                 <option value="All">All the temperaments</option>
             {temperaments?.map((temp) => (
               <option value={temp.name} key={temp.id} >{temp.name}</option>
@@ -75,12 +80,13 @@ const CardsContainer = () => {
 
         <div>
           <h6>Find dogs from API or DB</h6>
-          <select onChange={handlerFilterBySource}>
+          <select onChange={(event) => handlerFilterBySource(event)}>
             <option value="All">All sources</option>
             <option value="createdInDB">DB</option>
             <option value="created">API</option>
           </select>
         </div>
+
 
         <div>
           <h6>Order the dogs alphabetically</h6>
@@ -90,11 +96,16 @@ const CardsContainer = () => {
           </select>
         </div>
 
+
         <div>
-          <h6>Order the dogs by weight</h6>
-          <select></select>
+          <h6>Order the dogs by Weight</h6>
+          <select
+            onChange={(event) => {handleClickOrderWeight(event)}}>
+            <option value="asc">Heavier</option>
+            <option value="desc">Lighter</option>
+          </select>
         </div>
-      </div>
+
 
       <div className={style.container}>
         {currentDogs.map((dog) => {
@@ -104,11 +115,12 @@ const CardsContainer = () => {
               image={dog.image}
               name={dog.name}
               temperament={dog.temperament}
-              weight={dog.weight}
+              weight_min={dog.weight_min}
+              weight_max={dog.weight_max}
               id={dog.id}
-            />
-          );
-        })}
+              />
+              );
+            })}
       </div>
 
       <div>
@@ -117,10 +129,11 @@ const CardsContainer = () => {
           dogs={dogs.length}
           pagination={pagination}
           currentPage={currentDogs}
-        />
+          />
       </div>
     </div>
   );
+          
 };
 
 export default CardsContainer;

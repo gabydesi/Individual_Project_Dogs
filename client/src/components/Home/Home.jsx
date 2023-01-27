@@ -1,6 +1,7 @@
 import React from "react";
 import CardsContainer from "../CardsContainer/CardsContainer";
 import NavBar from "../NavBar/NavBar";
+import style from "./Home.module.css"
 
 
 
@@ -9,14 +10,11 @@ const Home = () => {
     
     return(
 
-        <div>
+        <div className={style.home_back}>
 
             <NavBar/>
 
-        <div>
-            <h1>This is the Home view (Maquetando)</h1>
             <CardsContainer/>
-        </div>
         
 
         </div>

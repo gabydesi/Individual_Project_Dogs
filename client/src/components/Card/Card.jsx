@@ -17,7 +17,8 @@ const Card = (props) => {
             <img src={props.image} alt={props.name} height="190px" width="190px"/>
             <h3>{props.name}</h3>
             <h5>{props.temperament}</h5>
-            <h5>Weight: {props.weight}</h5>
+            <h5>Weight min: {props.weight_min} Kg</h5>
+            <h5>Weight max: {props.weight_max} Kg</h5>
             </Link>
             
 
