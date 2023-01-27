@@ -10,8 +10,8 @@ const dogsRouter = Router()
 
 //validations for db protection
 const postValidate = (req, res, next) => {
-    const { name, height, weight } = req.body;
-    if(!name || !height || !weight) res.status(404).json({error: "Missing data"})
+    const { name, height_min, height_max, weight_min, weight_max } = req.body;
+    if(!name || !height_min || !height_max || !weight_min || !weight_max) res.status(404).json({error: "Missing data"})
     
     next();
 }

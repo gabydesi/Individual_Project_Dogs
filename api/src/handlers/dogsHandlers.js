@@ -36,9 +36,9 @@ const getDogIdHandler = async(req, res) => {
 
 
 const createDogHandler = async(req, res) => {
-    const { name, height, weight, life_span, temperament,image } = req.body;
+    const { name, height_min, height_max, weight_min, weight_max, life_span, temperaments,image } = req.body;
     try {
-        await createDog(name, height, weight, life_span, temperament, image)
+        await createDog(name, height_min, height_max, weight_min, weight_max, life_span, temperaments,image)
         res.status(200).json("Dog created succesfully")
     } catch (error) {
         res.status(400).json({error: error.message})

@@ -4,35 +4,39 @@ const { Dog, Temperament } = require('../db')
 
 const { Op } = require('sequelize');
 
-//función para limpiar la info que me traerá por name y cards desde la api y db
+//función para limpiar la info que me traerá por name y cards desde la api
 const cleanArray = (arr) =>{
     const clean = arr.map(element =>{
         return{
             id: element.id,
             name: element.name, 
-            height: element.height.metric, 
-            weight: element.weight.metric, 
+            height_min: parseInt(element.height.metric.slice(0, 2).trim()),
+            height_max: parseInt(element.height.metric.slice(4).trim()), 
+            weight_min: parseInt(element.weight.metric.slice(0, 2).trim()), 
+            weight_max: parseInt(element.weight.metric.slice(4).trim()),
             life_span: element.life_span, 
             temperament:element.temperament || "Playful",
             image: element.image.url,
-            created: false
+            createdInDB: false
         }
     })
     return clean;
 }
 
-//función para limpiar la info que me traerá por db
+//función para limpiar la info que me traerá por db de todos los perros creados en la db
 const cleanDbArray = (arr) =>{
     const clean = arr.map(element =>{
         return{
             id: element.id,
             name: element.name, 
-            height: element.height, 
-            weight: element.weight, 
+            height_min: element.height_min,
+            height_max: element.height_max,  
+            weight_min: element.weight_min, 
+            weight_max: element.weight_max,
             life_span: element.life_span, 
             temperament:element.temperaments.map(temp=> temp.name).join(","),
             image: element.image,
-            created: true
+            createdInDB: true
         }
     })
     return clean;
@@ -41,16 +45,17 @@ const cleanDbArray = (arr) =>{
 //función para limpiar la info que me traerá por db cuando quiero ver la info por ID
 const cleanDBArrayId = async(id) => {
     const dbDogs = await Dog.findOne({where: {id}, include: Temperament })
-    
      return {
         id: dbDogs.id,
             name: dbDogs.name, 
-            height: dbDogs.height, 
-            weight: dbDogs.weight, 
+            height_min: dbDogs.height_min,
+            height_max: dbDogs.height_max,
+            weight_min: dbDogs.weight_min, 
+            weight_max: dbDogs.weight_max,
             life_span: dbDogs.life_span, 
             temperament:dbDogs.temperaments.map(temp=> temp.name).join(","),
             image: dbDogs.image,
-            created: true
+            createdInDB: true
      }
     
 }
@@ -58,19 +63,20 @@ const cleanDBArrayId = async(id) => {
 //función para limpiar la info y poder traerla por ID desde la api
 const cleanArrayId = async(id) => {
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds/${id}?api_key=${API_KEY}`)).data
-    
     if(apiDogsAll){
 
         let dogApi = apiDogsAll
         return{
             id: dogApi.id,
             name: dogApi.name, 
-            height: dogApi.height.metric, 
-            weight: dogApi.weight.metric, 
+            height_min: parseInt(dogApi.height.metric.slice(0, 2).trim()),
+            height_max: parseInt(dogApi.height.metric.slice(4).trim()), 
+            weight_min: parseInt(dogApi.weight.metric.slice(0, 2).trim()), 
+            weight_max: parseInt(dogApi.weight.metric.slice(4).trim()),
             life_span: dogApi.life_span, 
             temperament:dogApi.temperament,
             image: `https://cdn2.thedogapi.com/images/${dogApi.reference_image_id}.jpg`,
-            create: false
+            createdInDB: false
         }
     } 
 }
@@ -85,7 +91,7 @@ const getAllDogs = async() => {
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data
     const apiDogs = cleanArray(apiDogsAll)
 
-    return [...mapDogs, ...apiDogs ]
+    return [ ...apiDogs, ...mapDogs ]
 
 }
 
@@ -94,13 +100,11 @@ const searchDogByName = async(name) => {
         where: {name: {[Op.iLike]:`${name}%`}}, 
         include: Temperament
     })
+    console.log("comprobando", dbDogs)
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data
-
     const apiDogs = cleanArray(apiDogsAll)
-
     const filterApi = apiDogs.filter(dog => dog.name.toLowerCase().includes(name.toLowerCase()))
-
-    return [...filterApi, ...dbDogs]
+    return [...filterApi, ...mapDogs]
 } 
 
 
@@ -111,8 +115,8 @@ const getDogById = async(id, dogsSource) => {
 }
 
 
-const createDog = async(name, height, weight, life_span, temperaments, image) => {
-    let dogDb = await Dog.create({name, height, weight, life_span, image:image || "https://i.pinimg.com/originals/18/35/81/183581a9055feb63d670187fc2ac51f5.jpg"})
+const createDog = async(name, height_min, height_max, weight_min, weight_max, life_span, temperaments,image) => {
+    let dogDb = await Dog.create({name, height_min, height_max, weight_min, weight_max, life_span, image:image || "https://i.pinimg.com/originals/18/35/81/183581a9055feb63d670187fc2ac51f5.jpg"})
     temperaments.map(async temp=> {
         let temperament = await Temperament.findOne({
         where: { 
@@ -120,7 +124,6 @@ const createDog = async(name, height, weight, life_span, temperaments, image) =>
          }})
         await dogDb.addTemperament(temperament)
     })
-    // return `Dog created succesfully ${dogDb.name} with temperaments ${temperaments}`
 } 
 
 
