@@ -96,15 +96,15 @@ const getAllDogs = async() => {
 }
 
 const searchDogByName = async(name) => {
-    const dbDogs = await Dog.findAll({
-        where: {name: {[Op.iLike]:`${name}%`}}, 
+    let dbDogs = await Dog.findAll({
+        where: {name: {[Op.iLike]:`%${name}%`}}, 
         include: Temperament
     })
-    console.log("comprobando", dbDogs)
+    console.log("compruebo", dbDogs)
     const apiDogsAll = (await axios.get(`https://api.thedogapi.com/v1/breeds?api_key=${API_KEY}`)).data
     const apiDogs = cleanArray(apiDogsAll)
     const filterApi = apiDogs.filter(dog => dog.name.toLowerCase().includes(name.toLowerCase()))
-    return [...filterApi, ...mapDogs]
+    return [...filterApi, ...dbDogs]
 } 
 
 
