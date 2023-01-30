@@ -13,7 +13,7 @@ const LandingPage = () => {
         <div>
             
             
-            <h1>
+            <h1 className={style.title}>
                 Do you want to see some dogs?
             </h1>
             

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {searchDog} from '../../Redux/action'
 import { useDispatch } from 'react-redux';
+import style from "./SearchBar.module.css"
 
 
 
@@ -24,9 +25,11 @@ const SearchBar = () => {
 
 
     return(
-        <form onSubmit={handleSubmit}>
-            <input type="text" placeholder='Find dogs by name...' onChange={handleChange} value={dogName}/>
-            <input type="submit" value="Find" />
+        <form  className={style.searchBarObject} onSubmit={handleSubmit}>
+            
+            <input  className={style.input} type="text" placeholder='Find dogs by name...' onChange={handleChange} value={dogName}/>
+            <input className={style.button} type="submit" value="FIND" />
+            
         </form>
     )
 }

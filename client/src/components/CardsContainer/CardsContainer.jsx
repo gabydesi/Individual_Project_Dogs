@@ -69,7 +69,7 @@ const CardsContainer = () => {
 
       <div className={style.container}>
         <div>
-          <h6>Find dogs by temperament</h6>
+          <h6 className={style.filter}>Find dogs by temperament</h6>
           <select onChange={(event) =>handlerFilterByTemp(event)}>
                 <option value="All">All the temperaments</option>
             {temperaments?.map((temp) => (
@@ -79,7 +79,7 @@ const CardsContainer = () => {
         </div>
 
         <div>
-          <h6>Find dogs from API or DB</h6>
+          <h6 className={style.filter}>Find dogs from API or DB</h6>
           <select onChange={(event) => handlerFilterBySource(event)}>
             <option value="All">All sources</option>
             <option value="createdInDB">DB</option>
@@ -89,8 +89,8 @@ const CardsContainer = () => {
 
 
         <div>
-          <h6>Order the dogs alphabetically</h6>
-          <select onChange={(event) => handlerSortAlpha(event)}>
+          <h6 className={style.filter}>Order the dogs alphabetically</h6>
+          <select  onChange={(event) => handlerSortAlpha(event)}>
             <option value="asc">A - Z</option>
             <option value="desc">Z - A</option>
           </select>
@@ -98,9 +98,9 @@ const CardsContainer = () => {
 
 
         <div>
-          <h6>Order the dogs by Weight</h6>
+          <h6 className={style.filter}>Order the dogs by Weight</h6>
           <select
-            onChange={(event) => {handleClickOrderWeight(event)}}>
+             onChange={(event) => {handleClickOrderWeight(event)}}>
             <option value="asc">Heavier</option>
             <option value="desc">Lighter</option>
           </select>

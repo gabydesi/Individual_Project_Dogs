@@ -30,7 +30,7 @@ const Detail = () => {
       
         <div className={style.detail_content}>
           <div>
-            <Link to="/home">BACK HOME</Link>
+            <Link className={style.button} to="/home">BACK HOME</Link>
           </div>
           
             <h1>{detail.name}</h1>
