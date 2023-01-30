@@ -101,8 +101,8 @@ const rootReducer = (state = initialState, action) => {
             const createdFilter = action.payload === "createdInDB" ?
             createdDogs.filter(elem => elem.createdInDB === true) :
             createdDogs.filter(elem => !elem.createdInDB)
-            console.log("comprobando",createdFilter)
             return{
+                ...state,
                 dogs: createdFilter
             }
     default:

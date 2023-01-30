@@ -56,6 +56,7 @@ const Form = () => {
 
     const dogTemperament = useSelector(state => state.temperaments)
     
+    
     const [form, setForm] = useState({
         name:"",
         height_min:"",
@@ -64,7 +65,7 @@ const Form = () => {
         weight_max:"",
         life_span:"",
         image:"",
-        temperament:[]
+        temperaments:[]
     })
     
     const [errors, setErrors] = useState({})
@@ -82,21 +83,21 @@ const Form = () => {
     const handlerSelect = (event) => {
     setForm({
       ...form,
-      temperaments: [...form.temperament, event.target.value]
+      temperaments: [...form.temperaments, event.target.value]
     })
+
     }
 
     //cargar datos en la db
        
     const handlerSubmit = (event) => {
     event.preventDefault()
-    console.log(form)
     axios.post('http://localhost:3001/dogs/create', form)
     .then(res=> alert(res))
     
     }
 
-    //validaciones
+  
 
     return(
         <div className={style.back_form}>
@@ -151,10 +152,10 @@ const Form = () => {
 
             <div>
             <label>Temperament: </label>
-            <select name="temperaments" onChange={handlerSelect}>
+            <select name="temperaments" onChange={(event) => handlerSelect(event)}>
                 {dogTemperament.map((temp) => {
                     return(
-                    <option className='option_form' value={temp.name}>{temp.name}</option>
+                    <option key={temp.id} value={temp.name}>{temp.name}</option>
                     )
                 })}
             </select>
