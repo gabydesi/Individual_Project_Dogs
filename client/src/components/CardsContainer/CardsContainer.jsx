@@ -12,6 +12,7 @@ import {
   
 } from "../../Redux/action";
 import Paginate from "../Paginate/Paginate";
+import notFound from '../images/notfound.jpg'
 
 //este componente debe tomar un array de dogs y por cada dog
 //renderizar un componente card
@@ -108,7 +109,18 @@ const CardsContainer = () => {
 
 
       <div className={style.container}>
-        {currentDogs.map((dog) => {
+        
+
+        {
+        currentDogs === "404" ? (
+         <div>
+          <h1>Dog not found!</h1>
+          <img className={style.notfound} src={notFound} alt=''/>
+         </div> 
+        ) :
+        currentDogs.length ? 
+        
+        currentDogs.map((dog) => {
           return (
             <Card
               key={dog.id}
@@ -120,7 +132,13 @@ const CardsContainer = () => {
               id={dog.id}
               />
               );
-            })}
+            })
+        : (
+
+          <div>
+            <h1>There is not dogs</h1>
+          </div>
+        )}
       </div>
 
       <div>

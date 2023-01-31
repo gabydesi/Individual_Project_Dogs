@@ -48,3 +48,10 @@
     justify-content: center;
     border-radius: 25px;
   }
+
+  .logo {
+    
+    height: 300px;
+    width: 330px;
+    max-width: 50%;
+  }

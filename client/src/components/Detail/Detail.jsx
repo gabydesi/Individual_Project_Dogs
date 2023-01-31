@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { getDogDetail } from "../../Redux/action"
 import { Link } from "react-router-dom";
 import style from "./Detail.module.css"
+import logo from '../images/logo.png'
 
 
 const Detail = () => {
@@ -31,7 +32,6 @@ const Detail = () => {
 
     return(
 
-      
         <div className={style.detail_content}>
           <div>
             <br/>
@@ -50,6 +50,11 @@ const Detail = () => {
             <h3>Life_span: {detail.life_span}</h3>
             <h3>Temperament: {detail.temperament}</h3>
           </div>
+
+          <div>
+            <img className={style.logo} src={logo} alt=""/>
+            </div>
+          
 
         </div>
     )

@@ -12,3 +12,10 @@
 .filter{
     margin-bottom: 10px;
 }
+
+.notfound {
+    width: 400px;
+    height: 330px;
+    align-items: center;
+    justify-content: center;
+}

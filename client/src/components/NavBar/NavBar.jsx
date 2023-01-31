@@ -7,8 +7,9 @@ const NavBar = () => {
     return(
         <div className={style.mainContainer}>
             
-            
+            <Link to="/">
             <img className={style.logo} src={logo} alt=""/>
+            </Link>
             
 
             <Link className={style.button} to="/home">HOME</Link>

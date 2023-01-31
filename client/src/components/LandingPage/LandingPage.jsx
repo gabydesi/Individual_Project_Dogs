@@ -17,7 +17,7 @@ const LandingPage = () => {
                 Do you want to see some dogs?
             </h1>
             
-            <Link to="/home">Let's GO HOME!</Link>
+            <Link className={style.title} to="/home">Let's GO HOME!</Link>
         </div>
         </div>
     )

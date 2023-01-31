@@ -10,29 +10,40 @@ export const ORDER_BY_WEIGHT = "ORDER_BY_WEIGHT"
 export const FILTER_DOGS_BY_TEMP = "FILTER_DOGS_BY_TEMP"
 export const FILTER_DOGS_BY_CREATED = "FILTER_DOGS_BY_SOURCE"
 
+export const getDogs = ()=>{
+  return async(dispatch) => {
+      try {
+          const response = await axios.get("http://localhost:3001/dogs")
+          return dispatch({
+              type: GET_DOGS,
+              payload: response.data
+          })
 
-
-export function getDogs() {
-  return function (dispatch) {
-    axios("http://localhost:3001/dogs").then((res) =>
-      dispatch({
-        type: GET_DOGS,
-        payload: res.data,
-      })
-    );
-  };
+      } catch (error) {
+          console.log(error.message)
+      } 
+  }
 }
 
-export function searchDog(name) {
-  return function (dispatch) {
-    axios(`http://localhost:3001/dogs?name=${name}`).then((res) =>
-      dispatch({
-        type: SEARCH_DOG,
-        payload: res.data,
+
+export const searchDog = (name) => {
+  return async(dispatch)=> {
+      try {
+          var json = await axios.get(`http://localhost:3001/dogs?name=${name}`);
+          if (!json) throw Error
+          return dispatch ({
+              type: SEARCH_DOG,
+              payload: json.data  //es lo q devuelve la ruta una vez q le asigno algo por name
+          })
+      } catch (error) {
+          dispatch({ type: SEARCH_DOG,
+          payload: "404"
       })
-    );
-  };
+      }
+
+  }
 }
+
 
 export function getDogDetail(id) {
   return function (dispatch) {

@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import style from "./Form.module.css"
 import axios from 'axios';
 import validate from './validation';
+import logo from '../images/logo.png'
 
 const Form = () => {
 
@@ -53,7 +54,7 @@ const Form = () => {
     const handlerSubmit = (event) => {
     event.preventDefault()
     axios.post('http://localhost:3001/dogs/create', form)
-    .then(res=> alert(res))
+    .then(alert("Dog created successfully, return home to see it!"))
     
     }
 
@@ -133,6 +134,9 @@ const Form = () => {
             
         </form>
 
+            <div>
+            <img className={style.logo} src={logo} alt=""/>
+            </div>
         
         
         </div>
