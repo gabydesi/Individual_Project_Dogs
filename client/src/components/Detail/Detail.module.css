@@ -1,6 +1,12 @@
 .detail_content{
     background-image: url("../images/backHome.jpg");
     background-size: cover;
+    
+}
+
+.loadingVideo{
+  position: absolute;
+  
 }
 
 .button{
@@ -32,4 +38,13 @@
     color: #131213;
     border-color: #111111;
     transform: scale(1.3,1.3);
+  }
+
+
+  .imageSize{
+    width: 230px;
+    height: 230px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 25px;
   }

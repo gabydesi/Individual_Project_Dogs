@@ -20,7 +20,11 @@ const Detail = () => {
     if (!detail.id) {
         return (
           <div>
+
             <h1>Loading</h1>
+            {/* <video class="lazyload" autoPlay muted loop className={style.loadingVideo}>
+                    <source src="../images/loadingVideo.mp4" type="video/mp4"/>
+                </video> */}
           </div>
         );
       }
@@ -30,17 +34,23 @@ const Detail = () => {
       
         <div className={style.detail_content}>
           <div>
+            <br/>
+            <br/>
             <Link className={style.button} to="/home">BACK HOME</Link>
           </div>
-          
+
+          <div>
+
             <h1>{detail.name}</h1>
-            <img src={detail.image} alt=""/>
+            <img className={style.imageSize} src={detail.image} alt=""/>
             <h3>Height min: {detail.height_min} cm</h3>
             <h3>Height max: {detail.height_max} cm</h3>
             <h3>Weight min: {detail.weight_min} Kg</h3>
             <h3>Weight max: {detail.weight_max} Kg</h3>
             <h3>Life_span: {detail.life_span}</h3>
             <h3>Temperament: {detail.temperament}</h3>
+          </div>
+
         </div>
     )
 }
