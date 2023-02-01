@@ -139,7 +139,7 @@ const CardsContainer = () => {
           dogsPerPage={dogsPerPage}
           dogs={dogs.length}
           pagination={pagination}
-          currentPage={currentDogs}
+          currentPage={page}
           />
       </div>
     </div>
