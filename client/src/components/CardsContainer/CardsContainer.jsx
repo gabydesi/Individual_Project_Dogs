@@ -118,8 +118,6 @@ const CardsContainer = () => {
           <img className={style.notfound} src={notFound} alt=''/>
          </div> 
         ) :
-        currentDogs.length ? 
-        
         currentDogs.map((dog) => {
           return (
             <Card
@@ -133,12 +131,7 @@ const CardsContainer = () => {
               />
               );
             })
-        : (
-
-          <div>
-            <h1>There is not dogs</h1>
-          </div>
-        )}
+        }
       </div>
 
       <div>

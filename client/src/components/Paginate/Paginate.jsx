@@ -15,6 +15,13 @@ const Paginate = ({dogsPerPage, dogs, pagination, currentPage}) => {
     return(
         <nav>
             <ul className={styles.crumbs}>
+            <button
+          className={styles.arrow}
+          onClick={() => pagination(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          &larr;
+        </button>
                 {
                     pageNumbers && pageNumbers.map(number => (
                         <li className={styles.number} key={number}>
@@ -23,6 +30,13 @@ const Paginate = ({dogsPerPage, dogs, pagination, currentPage}) => {
                         </li>
                     ))
                 }
+             <button
+          className={styles.arrow}
+          onClick={() => pagination(currentPage + 1)}
+          disabled={currentPage === pageNumbers.length}
+        >
+          &rarr;
+        </button>   
             </ul>
         </nav>
     )
