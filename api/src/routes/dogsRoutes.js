@@ -16,7 +16,6 @@ const postValidate = (req, res, next) => {
     next();
 }
 
-
 //GET /dogs also dogs?name="..."
 dogsRouter.get("/", getDogsHandler)
 
