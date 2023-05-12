@@ -14,7 +14,7 @@ export const RESET="RESET"
 export const getDogs = ()=>{
   return async(dispatch) => {
       try {
-          const response = await axios.get("http://localhost:3001/dogs")
+          const response = await axios.get("/dogs")
           return dispatch({
               type: GET_DOGS,
               payload: response.data
@@ -30,7 +30,7 @@ export const getDogs = ()=>{
 export const searchDog = (name) => {
   return async(dispatch)=> {
       try {
-          var json = await axios.get(`http://localhost:3001/dogs?name=${name}`);
+          var json = await axios.get(`/dogs?name=${name}`);
           if (!json) throw Error
           return dispatch ({
               type: SEARCH_DOG,
@@ -48,7 +48,7 @@ export const searchDog = (name) => {
 
 export function getDogDetail(id) {
   return function (dispatch) {
-    axios(`http://localhost:3001/dogs/${id}`).then((res) =>
+    axios(`/dogs/${id}`).then((res) =>
       dispatch({
         type: GET_DOG_DETAIL,
         payload: res.data,
@@ -59,7 +59,7 @@ export function getDogDetail(id) {
 
 export function getDogTemperaments() {
   return function (dispatch) {
-    axios(`http://localhost:3001/temperaments`).then((res) =>
+    axios(`/temperaments`).then((res) =>
       dispatch({
         type: GET_DOG_TEMPERAMENT,
         payload: res.data,

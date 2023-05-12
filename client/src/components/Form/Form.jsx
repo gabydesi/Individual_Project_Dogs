@@ -51,7 +51,7 @@ const Form = () => {
   const handlerSubmit = (event) => {
     event.preventDefault();
     axios
-      .post("http://localhost:3001/dogs/create", form)
+      .post("/dogs/create", form)
       .then(alert("Dog created successfully!"));
     historyObject.push("/home");
     window.location.reload();
