@@ -5,6 +5,7 @@ import { getDogDetail } from "../../Redux/action"
 import { Link } from "react-router-dom";
 import style from "./Detail.module.css"
 import logo from '../images/logo.png'
+import loading from '../images/loading.gif'
 
 
 const Detail = () => {
@@ -23,7 +24,8 @@ const Detail = () => {
     if (!detail.id) {
         return (
           <div>
-            <h1>Loading</h1>
+            <img src={loading} alt="Loading" className={style.loading}/>
+            <h3>Loading...</h3>
           </div>
         );
       }

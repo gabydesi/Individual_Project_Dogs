@@ -55,3 +55,10 @@
     width: 330px;
     max-width: 50%;
   }
+
+  .loading{
+    height: 347px;
+    width: 600px;
+    object-fit: cover;
+    padding-top: 15%;
+  }
