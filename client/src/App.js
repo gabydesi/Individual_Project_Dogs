@@ -6,7 +6,8 @@ import Form from './components/Form/Form';
 import Detail from './components/Detail/Detail';
 import axios from 'axios';
 
-axios.defaults.baseURL = "http://localhost:3001/"
+//axios.defaults.baseURL = "http://localhost:3001/"
+axios.defaults.baseURL = "https://individualprojectdogs-production.up.railway.app/"
 
 
 function App() {
