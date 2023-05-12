@@ -6,7 +6,8 @@ import {
   SORT_BREED_ALPHABETICAL,
   FILTER_DOGS_BY_TEMP,
   FILTER_DOGS_BY_CREATED,
-  ORDER_BY_WEIGHT
+  ORDER_BY_WEIGHT,
+  RESET
 } from "./action";
 
 const initialState = {
@@ -27,8 +28,14 @@ const rootReducer = (state = initialState, action) => {
     case GET_DOG_DETAIL:
       return {
         ...state,
+        allDogs:action.payload,
         detail: action.payload,
       };
+    case RESET:
+      return {
+        ...state,
+        detail:{},
+      }
     case GET_DOG_TEMPERAMENT:
       return {
         ...state,

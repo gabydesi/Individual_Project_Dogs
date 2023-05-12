@@ -18,14 +18,12 @@ const Detail = () => {
 
     const detail = useSelector((state) => state.detail);
 
+    dispatch({type: "reset"})
+
     if (!detail.id) {
         return (
           <div>
-
             <h1>Loading</h1>
-            {/* <video class="lazyload" autoPlay muted loop className={style.loadingVideo}>
-                    <source src="../images/loadingVideo.mp4" type="video/mp4"/>
-                </video> */}
           </div>
         );
       }

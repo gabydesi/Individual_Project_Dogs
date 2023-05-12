@@ -9,6 +9,7 @@ export const SORT_BREED_ALPHABETICAL = "SORT_BREED_ALPHABETICAL";
 export const ORDER_BY_WEIGHT = "ORDER_BY_WEIGHT"
 export const FILTER_DOGS_BY_TEMP = "FILTER_DOGS_BY_TEMP"
 export const FILTER_DOGS_BY_CREATED = "FILTER_DOGS_BY_SOURCE"
+export const RESET="RESET"
 
 export const getDogs = ()=>{
   return async(dispatch) => {
@@ -66,6 +67,16 @@ export function getDogTemperaments() {
     );
   };
 }
+
+
+//limpiar el state
+export function resetAll () {
+  return (dispatch) => {
+    dispatch({
+      type: RESET,
+    });
+  };
+};
 
 //filtrado y ordenamiento
 

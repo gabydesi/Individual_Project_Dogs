@@ -8,7 +8,8 @@ import {
   alphabeticalOrder,
   temperamentsFilter,
   dogsCreatedFilter,
-  weightOrder
+  weightOrder,
+  resetAll
   
 } from "../../Redux/action";
 import Paginate from "../Paginate/Paginate";
@@ -29,7 +30,7 @@ const CardsContainer = () => {
   const indexOfLastDog = page * dogsPerPage;
   const indexOfFirstDog = indexOfLastDog - dogsPerPage;
   const currentDogs = dogs.slice(indexOfFirstDog, indexOfLastDog);
-  const [order, setOrder] = useState([]);
+  const [, setOrder] = useState([]);
 
   const pagination = (pageNumber) => {
     setPage(pageNumber);
@@ -37,6 +38,7 @@ const CardsContainer = () => {
 
 
   useEffect(() => {
+    dispatch(resetAll())
     dispatch(getDogs());
     dispatch(getDogTemperaments());
   }, [dispatch]);
