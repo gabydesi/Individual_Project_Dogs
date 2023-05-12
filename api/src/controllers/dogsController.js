@@ -81,7 +81,7 @@ const cleanArrayId = async (id) => {
       createdInDB: false,
     };
   }
-};
+}; 
 
 //funciones que interactuan con el modelo de la db y con la api externa, esta función le entrega la info a los handlers
 const getAllDogs = async () => {
